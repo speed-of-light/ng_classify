@@ -57,15 +57,16 @@ module NgClassify
 
   module Rails
     class Railtie < ::Rails::Railtie
+      ext = 'ngc'
       if ::Rails.version.to_s >= '3.1'
-        config.app_generators.template_engine 'ng-classify'
+        config.app_generators.template_engine ext
       else
-        config.generators.template_engine 'ng-classify'
+        config.generators.template_engine ext
       end
 
       initializer 'ng_classify.configure_template_digestor' do |app|
         if app.assets && app.assets.respond_to?(:register_engine)
-          app.assets.register_engine '.ng-classify', NgClassify::Template
+          app.assets.register_engine ".#{ext}", NgClassify::Template
         end
       end
     end
